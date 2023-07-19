@@ -6,6 +6,7 @@ from typing import Callable
 from functools import wraps
 import redis
 import requests
+
 redis_client = redis.Redis()
 
 
@@ -15,11 +16,13 @@ def url_count(method: Callable) -> Callable:
     def wrapper(*args, **kwargs):
         url = args[0]
         redis_client.incr(f"count:{url}")
-        cached = redis_client.get(f'{url}')
+        cached = redis_client.get(url)  # Remove unnecessary f-string
         if cached:
             return cached.decode('utf-8')
-        redis_client.setex(f'{url}, 10, {method(url)}')
-        return method(*args, **kwargs)
+        response = method(url)  # Fetch the page content
+        redis_client.setex(url, 10, response)  # Fix setex arguments
+        return response
+
     return wrapper
 
 
@@ -31,4 +34,4 @@ def get_page(url: str) -> str:
 
 
 if __name__ == "__main__":
-    get_page('http://slowwly.robertomurray.co.uk')
+    print(get_page('http://slowwly.robertomurray.co.uk/delay/5000/url/http://example.com'))
