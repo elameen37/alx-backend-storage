@@ -7,7 +7,7 @@ cache = Cache()
 
 s1 = cache.store("first")
 print(s1)
-s2 = cache.store("secont")
+s2 = cache.store("second")
 print(s2)
 s3 = cache.store("third")
 print(s3)
