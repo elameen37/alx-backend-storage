@@ -18,8 +18,6 @@ def get_page(url: str) -> str:
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     get_page('http://slowwly.robertomurray.co.uk')
-=======
     print(get_page('http://slowwly.robertomurray.co.uk'))
->>>>>>> 64f6ea475fb5450b9ab983f3d537b99559bd7da9
+
